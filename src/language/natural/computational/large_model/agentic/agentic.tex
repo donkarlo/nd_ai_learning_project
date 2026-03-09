@@ -1,0 +1,163 @@
+\documentclass[a4paper]{article}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+\usepackage{minted}
+
+\title{}
+\date{}
+\begin{document}
+\maketitle
+“agent loop”: decide → call tool → observe → continue
+\begin{minted}{python}
+    while not goal_achieved:
+        think()
+        choose_action()
+        execute_tool()
+        observe_result()
+        update_memory()
+\end{minted}
+An example:
+
+This is precisely agentic because it:
+
+Receives a goal
+
+Creates a plan
+
+Calls tools
+
+Observes the result
+
+Produces a final answer
+    \begin{minted}{python}
+        from __future__ import annotations
+
+from dataclasses import dataclass
+from typing import Any, Callable, Dict, List, Optional
+
+
+Tool = Callable[..., Any]
+
+
+def tool_calculator(expression: str) -> float:
+    # Very small demo: only allow digits and basic operators
+    allowed = set("0123456789+-*/(). ")
+    if any(ch not in allowed for ch in expression):
+        raise ValueError("Expression contains unsupported characters.")
+    return float(eval(expression, {"__builtins__": {}}, {}))
+
+
+def tool_upper(text: str) -> str:
+    return text.upper()
+
+
+@dataclass
+class Step:
+    kind: str  # "plan" | "tool" | "observation" | "final"
+    content: str
+
+
+class TinyAgent:
+    def __init__(self, tools: Dict[str, Tool]):
+        self._tools = tools
+        self._memory: List[Step] = []
+
+    def run(self, goal: str) -> str:
+        self._memory.clear()
+
+        # 1) Plan (very naive planner)
+        plan = self._make_plan(goal)
+        self._memory.append(Step(kind="plan", content=plan))
+
+        # 2) Execute plan steps (agent loop)
+        result: Optional[Any] = None
+        for action in self._extract_actions(plan):
+            tool_name = action["tool"]
+            kwargs = action["kwargs"]
+
+            self._memory.append(Step(kind="tool", content=f"call {tool_name}({kwargs})"))
+            tool = self._tools[tool_name]
+            result = tool(**kwargs)
+            self._memory.append(Step(kind="observation", content=f"result = {result}"))
+
+        # 3) Produce final answer
+        final = self._finalize(goal, result)
+        self._memory.append(Step(kind="final", content=final))
+        return final
+
+    def trace(self) -> List[Step]:
+        return list(self._memory)
+
+    def _make_plan(self, goal: str) -> str:
+        # If the goal contains "calculate:" we use calculator tool
+        # If it contains "uppercase:" we use upper tool
+        lines: List[str] = ["Plan:"]
+        if "calculate:" in goal:
+            expr = goal.split("calculate:", 1)[1].strip()
+            lines.append(f"1) Use calculator on expression: {expr}")
+            lines.append(f"ACTION: calculator(expression='{expr}')")
+        if "uppercase:" in goal:
+            txt = goal.split("uppercase:", 1)[1].strip()
+            lines.append(f"2) Uppercase the text: {txt}")
+            lines.append(f"ACTION: upper(text='{txt}')")
+        if len(lines) == 1:
+            lines.append("1) No tool needed. Answer directly.")
+        return "\n".join(lines)
+
+    def _extract_actions(self, plan: str) -> List[Dict[str, Any]]:
+        actions: List[Dict[str, Any]] = []
+        for line in plan.splitlines():
+            line = line.strip()
+            if not line.startswith("ACTION:"):
+                continue
+
+            payload = line[len("ACTION:"):].strip()
+            # Very small parser for patterns like: tool(arg='value')
+            tool_name, rest = payload.split("(", 1)
+            tool_name = tool_name.strip()
+            args_str = rest.rsplit(")", 1)[0].strip()
+
+            kwargs: Dict[str, Any] = {}
+            if args_str:
+                # supports one or two keyword args in this demo
+                parts = [p.strip() for p in args_str.split(",")]
+                for p in parts:
+                    k, v = p.split("=", 1)
+                    k = k.strip()
+                    v = v.strip()
+                    if v.startswith("'") and v.endswith("'"):
+                        v = v[1:-1]
+                    kwargs[k] = v
+
+            actions.append({"tool": tool_name, "kwargs": kwargs})
+        return actions
+
+    def _finalize(self, goal: str, last_result: Optional[Any]) -> str:
+        if last_result is None:
+            return f"Done. Goal: {goal}"
+        return f"Done. Result: {last_result}"
+
+
+def main() -> None:
+    agent = TinyAgent(
+        tools={
+            "calculator": tool_calculator,
+            "upper": tool_upper,
+        }
+    )
+
+    goal = "calculate: (23 * 17) + 5"
+    final = agent.run(goal)
+    print(final)
+
+    print("\nTrace:")
+    for step in agent.trace():
+        print(f"- {step.kind}: {step.content}")
+
+
+if __name__ == "__main__":
+    main()
+    
+    \end{minted}
+\end{document}

@@ -1,0 +1,68 @@
+digraph RobotTree {
+    rankdir=LR;
+    node [shape=box];
+
+    "Robot" -> "Mind";
+    "Robot" -> "Body";
+
+    "Mind" -> "Cognition";
+    "Mind" -> "Psyche";
+
+    "Cognition" -> "Object level";
+    "Cognition" -> "Meta cognition";
+
+    "Object level" -> "Processes";
+
+    "Processes" -> "Memory";
+    "Processes" -> "Attention";
+    "Processes" -> "Perception";
+    "Processes" -> "Thinking";
+    "Processes" -> "Learning";
+    "Processes" -> "Language";
+
+    "Memory" -> "Explicit";
+    "Memory" -> "Implicit";
+
+    "Explicit" -> "Long-term";
+    "Long-term" -> "Episodic";
+    "Episodic" -> "Autobiographical";
+
+    "Autobiographical" -> "Event-specific knowledge";
+    "Autobiographical" -> "Lifetime";
+    "Autobiographical" -> "General events";
+
+    "Implicit" -> "Skills (Procedural)";
+    "Implicit" -> "Repetition priming";
+
+    "Meta cognition" -> "Self-consciousness";
+    "Meta cognition" -> "Self-monitoring";
+    "Meta cognition" -> "Self-evaluation";
+    "Meta cognition" -> "Self-regulation";
+
+    "Self-consciousness" -> "Self-awareness";
+    "Self-awareness" -> "Body awareness";
+
+    "Psyche" -> "Consciousness";
+    "Psyche" -> "Unconsciousness";
+
+    "Body" -> "Nervous system";
+    "Body" -> "Limb (Actuator)";
+    "Body" -> "Organ (Link)";
+
+    "Nervous system" -> "Nerve";
+    "Nervous system" -> "Neuron";
+    "Nervous system" -> "Central";
+    "Nervous system" -> "Peripheral";
+
+    "Neuron" -> "Sensory" [label="is-a"];
+    "Neuron" -> "Motor" [label="is-a"];
+    "Neuron" -> "Interneuron" [label="is-a"];
+
+    "Central" -> "Brain (CPU/FCU)";
+    "Central" -> "Retina (GPU)";
+    "Central" -> "Spinal cord (BUS)";
+
+    "Peripheral" -> "Autonomic";
+    "Peripheral" -> "Enteric";
+    "Peripheral" -> "Somatic";
+}

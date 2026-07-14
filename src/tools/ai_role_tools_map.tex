@@ -1,0 +1,373 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=1.45cm,top=1.35cm,bottom=1.55cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{hyperref}
+\usepackage{ragged2e}
+
+\definecolor{navy}{HTML}{1F2B3B}
+\definecolor{lightgray}{HTML}{F4F4F4}
+\definecolor{rulegray}{HTML}{D2D5D9}
+\definecolor{textgray}{HTML}{4E5661}
+
+\hypersetup{
+    colorlinks=true,
+    urlcolor=blue,
+    linkcolor=navy
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+\renewcommand{\arraystretch}{1.18}
+\setlist[itemize]{leftmargin=1.5em,itemsep=2pt,topsep=2pt}
+\setlist[enumerate]{leftmargin=1.8em,itemsep=3pt,topsep=3pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lfoot{\small\color{textgray}AI tools map for a production AI / GenAI engineer role}
+\rfoot{\small\color{textgray}Page \thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\newcolumntype{L}[1]{>{\RaggedRight\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
+
+\newcommand{\sectiontitle}[1]{%
+    \vspace{0.35em}
+    {\Large\bfseries\color{navy}#1}\par
+    \vspace{0.25em}
+}
+
+\newenvironment{tooltable}
+{%
+    \noindent
+    \begin{tabularx}{\textwidth}{|L{0.27\textwidth}|Y|}
+    \hline
+    \rowcolor{navy}
+    \color{white}\bfseries Software / Platform / Framework &
+    \color{white}\bfseries Two-line practical explanation \\
+    \hline
+}
+{%
+    \end{tabularx}
+    \vspace{0.35em}
+}
+
+\begin{document}
+    
+    \begin{center}
+        {\fontsize{23}{27}\selectfont\bfseries\color{navy}
+        Software, Platforms, and Frameworks for the\\[2pt]
+        AI Engineer Role}
+    \end{center}
+    
+    \vspace{0.45em}
+    
+    \begin{center}
+        \large\color{textgray}
+        Target role: Production AI Engineer / AI Researcher focused on ML, GenAI,
+        LLM systems, RAG, agentic workflows, Azure, Databricks, APIs, pipelines,
+        deployment, monitoring, and business integration.
+    \end{center}
+    
+    \vspace{0.7em}
+    
+    \sectiontitle{How to use this document}
+    
+    This map translates the job description into concrete tools you can mention
+    in interviews, study selectively, or use to plan a small portfolio project.
+    The strongest match for this specific role is the combination of
+    \textbf{Python + Azure + Databricks + RAG/agent frameworks + MLOps/monitoring}.
+    
+    \sectiontitle{1. Production-ready AI applications}
+    
+    \begin{tooltable}
+        \textbf{FastAPI} &
+        Use it to expose ML or LLM functionality as clean REST APIs in Python.
+        It is especially useful when a prototype must become a reliable internal
+        service with typed inputs, validation, and automatic API documentation. \\
+        \hline
+        \textbf{Docker} &
+        Package the application, model code, dependencies, and runtime into
+        reproducible containers. This makes deployment to Azure, Kubernetes, or
+        Databricks jobs more predictable and easier to maintain. \\
+        \hline
+    \end{tooltable}
+    
+    \sectiontitle{2. Traditional machine learning and data science}
+    
+    \begin{tooltable}
+        \textbf{scikit-learn} &
+        A strong default for classical ML, feature preprocessing, model selection,
+        and baseline experiments. It is ideal for tabular classification, regression,
+        clustering, and quick comparison before moving to heavier deep learning
+        solutions. \\
+        \hline
+        \textbf{PyTorch} &
+        A flexible deep learning framework for neural networks, custom training loops,
+        and research-to-production workflows. It is useful when the task needs deep
+        models, embeddings, sequence models, or integration with modern LLM tooling. \\
+        \hline
+    \end{tooltable}
+    
+    \sectiontitle{3. GenAI and LLM-based systems}
+    
+    \begin{tooltable}
+        \textbf{Azure OpenAI Service} &
+        Use it to access enterprise-managed LLMs through Azure security, networking,
+        and governance. It fits internal assistant systems where authentication, data
+        protection, monitoring, and integration with Microsoft services matter. \\
+        \hline
+        \textbf{Hugging Face Transformers} &
+        Use it for open-source transformer models, embeddings, fine-tuning, and local
+        or private experimentation. It is helpful when you need model control, domain
+        adaptation, or alternatives to closed cloud APIs. \\
+        \hline
+    \end{tooltable}
+    
+    \newpage
+    
+    \sectiontitle{4. RAG systems}
+    
+    \begin{tooltable}
+        \textbf{Azure AI Search} &
+        Use it as the retrieval layer for enterprise RAG with keyword, vector,
+        semantic, hybrid, and multimodal search patterns. It is a strong match when
+        documents must be indexed securely and queried at scale inside Azure. \\
+        \hline
+        \textbf{LlamaIndex} &
+        Use it to build document ingestion, indexing, retrieval, and query pipelines
+        for RAG applications. It is especially good for connecting many data sources
+        and turning unstructured internal documents into searchable LLM context. \\
+        \hline
+    \end{tooltable}
+    
+    \sectiontitle{5. Agentic AI and workflow automation}
+    
+    \begin{tooltable}
+        \textbf{LangGraph} &
+        Use it to build stateful, multi-step agents with controllable flows, tool calls,
+        memory, retries, and human review points. It is better than a simple chatbot
+        when the AI must plan, call tools, validate outputs, and continue across steps. \\
+        \hline
+        \textbf{Microsoft Copilot Studio} &
+        Use it to create enterprise agents that connect to Microsoft 365, business
+        data, and workflow actions. It is useful when business units need practical
+        automation without every use case becoming a full custom software project. \\
+        \hline
+    \end{tooltable}
+    
+    \sectiontitle{6. AI services, APIs, and integration into existing systems}
+    
+    \begin{tooltable}
+        \textbf{FastAPI} &
+        Use it as the interface layer between models, databases, frontends, and
+        enterprise systems. It lets you separate AI logic from application logic and
+        expose stable endpoints for other teams. \\
+        \hline
+        \textbf{Azure Functions} &
+        Use it for serverless AI-related tasks such as document processing, scheduled
+        inference, event-based automation, or lightweight workflow triggers. It is
+        useful when a full always-on service is unnecessary. \\
+        \hline
+    \end{tooltable}
+    
+    \sectiontitle{7. Modern AI architecture and model orchestration}
+    
+    \begin{tooltable}
+        \textbf{LangChain} &
+        Use it to connect prompts, tools, retrievers, memory, models, and output parsers
+        into LLM applications. It is practical for quickly composing RAG and agent
+        prototypes before hardening the most stable parts. \\
+        \hline
+        \textbf{Semantic Kernel} &
+        Use it when building LLM applications in the Microsoft ecosystem with planners,
+        plugins, and structured orchestration. It fits Azure-heavy environments where
+        AI functions need to be connected to enterprise workflows and services. \\
+        \hline
+    \end{tooltable}
+    
+    \newpage
+    
+    \sectiontitle{8. Azure implementation}
+    
+    \begin{tooltable}
+        \textbf{Azure AI Foundry} &
+        Use it as the central workspace for building, evaluating, deploying, and
+        managing AI apps and agents on Azure. It is suitable for enterprise GenAI
+        projects that need models, agents, evaluations, safety checks, and deployment
+        controls. \\
+        \hline
+        \textbf{Azure Machine Learning} &
+        Use it for training, experiment tracking, model registration, online endpoints,
+        batch jobs, and MLOps. It is a good fit for moving traditional ML and deep
+        learning models from notebooks into governed production systems. \\
+        \hline
+    \end{tooltable}
+    
+    \sectiontitle{9. Databricks end-to-end AI solutions}
+    
+    \begin{tooltable}
+        \textbf{Databricks Mosaic AI} &
+        Use it for building, evaluating, deploying, and governing GenAI and ML
+        applications on the Databricks Lakehouse. It fits roles where data engineering,
+        model development, vector search, serving, and governance must live in one
+        platform. \\
+        \hline
+        \textbf{Databricks Model Serving} &
+        Use it to deploy ML models, foundation models, and agents behind scalable
+        serving endpoints. It helps convert experiments into real-time or batch
+        inference services that internal applications can call. \\
+        \hline
+    \end{tooltable}
+    
+    \sectiontitle{10. Data pipelines and feature pipelines}
+    
+    \begin{tooltable}
+        \textbf{Apache Spark on Databricks} &
+        Use it for distributed data processing, feature generation, ETL, and
+        large-scale transformations. It is important when training data is large,
+        comes from many systems, or must be processed regularly. \\
+        \hline
+        \textbf{Delta Lake} &
+        Use it as a reliable storage layer for versioned, auditable, and transactional
+        data pipelines. It helps keep training, inference, and analytics datasets
+        consistent across teams and production jobs. \\
+        \hline
+    \end{tooltable}
+    
+    \sectiontitle{11. Training, inference, model registry, and monitoring}
+    
+    \begin{tooltable}
+        \textbf{MLflow} &
+        Use it to track experiments, package models, register model versions, and
+        manage model lifecycle. For GenAI and agents, it also helps with tracing,
+        evaluation, observability, prompt/version tracking, and production monitoring. \\
+        \hline
+        \textbf{Evidently AI} &
+        Use it to monitor data drift, prediction drift, model quality, and regression
+        risks after deployment. It is useful when production behavior may change
+        because incoming data changes over time. \\
+        \hline
+    \end{tooltable}
+    
+    \newpage
+    
+    \sectiontitle{12. Performance, scalability, and maintainability}
+    
+    \begin{tooltable}
+        \textbf{Kubernetes / Azure Kubernetes Service} &
+        Use it to deploy, scale, and manage containerized AI services in production.
+        It is useful when multiple services, APIs, workers, and model endpoints must
+        run reliably with autoscaling and rollout control. \\
+        \hline
+        \textbf{GitHub Actions} &
+        Use it for CI/CD: testing, linting, building Docker images, and deploying
+        services after code review. It supports maintainability because every change
+        can be checked and released through a repeatable pipeline. \\
+        \hline
+    \end{tooltable}
+    
+    \sectiontitle{13. Modern AI productivity tools}
+    
+    \begin{tooltable}
+        \textbf{GitHub Copilot} &
+        Use it as an AI coding assistant for Python, tests, refactoring, documentation,
+        and code exploration. It can speed up implementation, but production code
+        still needs review, security checks, and human ownership. \\
+        \hline
+        \textbf{Microsoft 365 Copilot} &
+        Use it to accelerate everyday knowledge work such as summarizing documents,
+        drafting specifications, and preparing meeting notes. In business-facing AI
+        work, it can help translate stakeholder needs into clearer requirements and
+        prototypes. \\
+        \hline
+    \end{tooltable}
+    
+    \sectiontitle{14. Collaboration with business units and rapid prototyping}
+    
+    \begin{tooltable}
+        \textbf{Streamlit} &
+        Use it to build quick internal demos, data apps, model dashboards, and
+        proof-of-concept AI interfaces in Python. It helps business users understand
+        and test an AI use case before expensive production engineering begins. \\
+        \hline
+        \textbf{Power BI} &
+        Use it to communicate model outputs, KPI changes, and operational impact to
+        non-technical stakeholders. It is useful when AI results must be connected to
+        reporting, decision-making, and business ownership. \\
+        \hline
+    \end{tooltable}
+    
+    \newpage
+    
+    \sectiontitle{Suggested interview framing}
+    
+    A strong answer for this role should not list tools randomly. A clear production
+    architecture would be: data and features in Databricks, MLflow for experiment
+    tracking and model registry, Azure AI Foundry/Azure OpenAI for GenAI components,
+    Azure AI Search or Databricks vector search for RAG, FastAPI for internal APIs,
+    Docker/Kubernetes for deployment, and MLflow or platform monitoring for quality,
+    latency, drift, and cost.
+    
+    \sectiontitle{Small portfolio project idea}
+    
+    Build an internal-document assistant: ingest PDFs or web pages, create embeddings,
+    index them in Azure AI Search or Databricks vector search, answer questions with a
+    RAG pipeline, expose the answer service through FastAPI, log traces and evaluation
+    results with MLflow, and containerize the service with Docker. This single project
+    demonstrates most requirements in the job advertisement.
+    
+    \sectiontitle{Priorities if time is limited}
+    
+    \begin{enumerate}
+        \item Azure AI Foundry / Azure OpenAI + Azure AI Search for enterprise GenAI and RAG.
+        \item Databricks + Spark + Delta Lake + MLflow for data, ML lifecycle, and deployment.
+        \item LangChain or LlamaIndex for RAG and LangGraph for agentic workflows.
+        \item FastAPI + Docker + Kubernetes/Azure services for production integration.
+        \item GitHub Copilot and Microsoft Copilot only as productivity tools, not as substitutes for engineering knowledge.
+    \end{enumerate}
+    
+    \sectiontitle{Sources consulted}
+    
+    The recommendations are based on the job description and current official
+    documentation or product pages for the tools below. Links are included for
+    verification and further study.
+    
+    \begin{itemize}
+        \item Microsoft Foundry documentation:
+        \url{https://learn.microsoft.com/en-us/azure/foundry/}
+        \item Azure Machine Learning documentation:
+        \url{https://learn.microsoft.com/en-us/azure/machine-learning/}
+        \item Azure AI Search documentation:
+        \url{https://learn.microsoft.com/en-us/azure/search/}
+        \item Databricks Machine Learning documentation:
+        \url{https://docs.databricks.com/en/machine-learning/}
+        \item Databricks Model Serving documentation:
+        \url{https://docs.databricks.com/en/machine-learning/model-serving/}
+        \item LangChain documentation:
+        \url{https://docs.langchain.com/}
+        \item LlamaIndex documentation:
+        \url{https://developers.llamaindex.ai/python/framework/}
+        \item FastAPI documentation:
+        \url{https://fastapi.tiangolo.com/}
+        \item Kubernetes documentation:
+        \url{https://kubernetes.io/docs/home/}
+        \item MLflow documentation:
+        \url{https://mlflow.org/docs/latest/}
+        \item GitHub Copilot documentation:
+        \url{https://docs.github.com/copilot}
+        \item Streamlit documentation:
+        \url{https://docs.streamlit.io/}
+    \end{itemize}
+
+\end{document}

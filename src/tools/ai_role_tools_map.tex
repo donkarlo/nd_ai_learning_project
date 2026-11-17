@@ -5,9 +5,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage{lmodern}
 \usepackage{microtype}
-\usepackage{tabularx}
 \usepackage{array}
-\usepackage{xcolor}
+\usepackage[table]{xcolor}
 \usepackage{enumitem}
 \usepackage{fancyhdr}
 \usepackage{lastpage}
@@ -39,7 +38,6 @@
 \renewcommand{\footrulewidth}{0pt}
 
 \newcolumntype{L}[1]{>{\RaggedRight\arraybackslash}p{#1}}
-\newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
 
 \newcommand{\sectiontitle}[1]{%
     \vspace{0.35em}
@@ -50,7 +48,7 @@
 \newenvironment{tooltable}
 {%
     \noindent
-    \begin{tabularx}{\textwidth}{|L{0.27\textwidth}|Y|}
+    \begin{tabular}{|L{0.27\textwidth}|L{0.68\textwidth}|}
     \hline
     \rowcolor{navy}
     \color{white}\bfseries Software / Platform / Framework &
@@ -58,7 +56,7 @@
     \hline
 }
 {%
-    \end{tabularx}
+    \end{tabular}
     \vspace{0.35em}
 }
 

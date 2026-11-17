@@ -1,0 +1,209 @@
+\documentclass[a4paper]{article}
+
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage{minted}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{todonotes}
+\usepackage{forest}
+\usepackage{xstring}
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{xparse}
+\usepackage{natbib}
+\usepackage{adjustbox}
+
+\usetikzlibrary{graphs,graphdrawing}
+\usegdlibrary{layered}
+
+% for external graphviz
+\input{/home/donkarlo/Dropbox/repo/nd_language_ai_project/src/nd_language_ai/formal/computer/programming/tex/latex/code_clips/external_graphviz.tex}
+
+% for tags
+\input{/home/donkarlo/Dropbox/repo/nd_language_ai_project/src/nd_language_ai/formal/computer/programming/tex/latex/part/control_sequence/kind/semtag/semtag.tex}
+
+% for links
+\input{/home/donkarlo/Dropbox/repo/nd_language_ai_project/src/nd_language_ai/formal/computer/programming/tex/latex/code_clips/seehere.tex}
+
+% for nested lists and sections
+\input{/home/donkarlo/Dropbox/repo/nd_language_ai_project/src/nd_language_ai/formal/computer/programming/tex/latex/code_clips/deep_structure.tex}
+
+\title{}
+\date{}
+\author{Mohammad Rahmani}
+
+\begin{document}
+   \maketitle
+
+   \section{Evaluating AI-Generated Natural-Language Answers}
+   \label{sec:natural-language-answer-evaluation}
+
+   \subsection{Scope}
+   Here, generative AI means a model that produces human-readable natural-language
+   text in response to a prompt. Evaluate the answer in relation to the prompt
+   and, when supplied, its source context. Code, images, speech, and tool actions
+   are outside this section.
+
+   Fluency alone is not evidence of correctness. A well-written answer may still
+   misunderstand the request, omit essential information, or introduce claims
+   that the prompt and its sources do not support.
+
+   \subsection{Define expected behavior}
+   Before scoring, translate the prompt into observable requirements:
+   \begin{itemize}
+      \item \textbf{Task:} answer, summarize, explain, compare, classify, or write
+      in a requested style.
+      \item \textbf{Audience and purpose:} who will use the answer and what it
+      should help them understand or decide.
+      \item \textbf{Constraints:} language, length, format, tone, required
+      points, prohibited content, and source restrictions.
+      \item \textbf{Evidence standard:} the supplied context, a reliable source,
+      a calculation, or a clearly marked interpretation.
+   \end{itemize}
+   Separate hard constraints from preferences. The requirement to use exactly
+   two sentences is directly checkable; a friendly tone requires judgment. If
+   the prompt is underspecified, assess whether the answer made a reasonable
+   assumption, stated it, or asked a necessary clarifying question.
+
+   \subsection{Evaluation dimensions}
+   Score dimensions separately so that style cannot conceal a factual or
+   instruction-following failure.
+   \begin{enumerate}
+      \item \textbf{Task and instruction adherence.} Does the answer address the
+      actual request and obey the language, length, format, audience, and source
+      restrictions?
+      \item \textbf{Factual correctness and grounding.} Are factual claims
+      correct and supported by the supplied context or reliable evidence? Does
+      the answer distinguish facts from assumptions, uncertainty, and opinion?
+      Check important claims individually.
+      \item \textbf{Relevance and completeness.} Does it answer the central
+      question, include information needed for the stated purpose, and avoid
+      unrelated material or important omissions?
+      \item \textbf{Reasoning and consistency.} Do the claims agree with one
+      another and follow from the evidence? Are causes, comparisons, quantities,
+      and conclusions represented correctly?
+      \item \textbf{Clarity and language quality.} Is the answer understandable,
+      organized, grammatically sound, and appropriate for the reader? Is the
+      detail useful rather than repetitive?
+      \item \textbf{Safety and uncertainty.} Does it avoid harmful,
+      privacy-invasive, or overconfident advice? Does it acknowledge
+      insufficient evidence instead of inventing certainty?
+   \end{enumerate}
+
+   Criteria depend on the task. In creative writing, invented events are not
+   factual errors when fiction was requested; evaluate prompt fit, internal
+   consistency, and style instead. In a source-grounded summary, fidelity to
+   the source is central. For high-stakes answers, factual support and safe
+   treatment of uncertainty are critical requirements.
+
+   \subsection{Scoring rubric}
+   Use a consistent ordinal scale:
+   \begin{itemize}
+      \item \textbf{4 -- Fully meets the criterion:} no material defect.
+      \item \textbf{3 -- Mostly meets it:} minor defect without meaningful
+      impact on correctness or usefulness.
+      \item \textbf{2 -- Partly meets it:} noticeable omission, ambiguity, or
+      weakly supported point.
+      \item \textbf{1 -- Mostly fails:} major error, missed instruction, or
+      misleading claim.
+      \item \textbf{0 -- Fails:} unusable, unrelated, or in direct conflict
+      with a critical requirement.
+   \end{itemize}
+   Record a short reason and evidence for each score. If an overall score is
+   needed, normalize each score \(s_i\) to \([0,1]\) and calculate
+   \[
+      S = \sum_{i=1}^{n} w_i s_i,
+      \qquad \sum_{i=1}^{n} w_i = 1,
+   \]
+   where \(w_i\) is the task-specific importance of criterion \(i\). Never let
+   an average hide a critical failure: a fabricated central fact, breached
+   source restriction, or dangerous advice can make an answer unacceptable
+   regardless of its style score.
+
+   \subsection{A repeatable review procedure}
+   \begin{enumerate}
+      \item Save the exact prompt, supplied context, and generated answer.
+      Record the model and generation settings when comparing systems.
+      \item Extract the task, audience, hard constraints, required facts, and
+      prohibited content.
+      \item Check each material factual claim against the context or an
+      appropriate reliable source. Mark unsupported additions separately from
+      omissions.
+      \item Score each dimension independently and point to the text that
+      supports the score.
+      \item Classify defects: wrong task, instruction violation, factual error,
+      unsupported claim, omission, contradiction, ambiguity, irrelevant detail,
+      or language problem.
+      \item Decide whether critical requirements pass before considering any
+      aggregate score.
+   \end{enumerate}
+   For systematic evaluation, use a representative prompt set: ordinary cases,
+   ambiguous requests, and prompts that test important constraints. Generate
+   multiple responses when randomness matters. Report results by criterion and
+   error type, not only as one average.
+
+   \subsection{Human and automated evaluation}
+   Human reviewers are useful for open-ended meaning, usefulness, tone, and
+   context-sensitive judgments. Give reviewers the same rubric, hide model
+   identities when practical, and have more than one reviewer score a sample.
+   Disagreements can reveal unclear criteria; large studies can report
+   inter-rater agreement.
+
+   Automated measures help when they match the task:
+   \begin{itemize}
+      \item Exact match can assess short answers with one canonical form, but
+      penalizes valid paraphrases.
+      \item BLEU and ROUGE estimate word overlap with a reference. They do not
+      establish that a response is true, relevant, or supported.
+      \item Semantic-similarity measures can recognize paraphrases, but
+      similarity is not proof of factual correctness.
+      \item Task-specific checks can verify required facts, entities, values,
+      citations, or format constraints.
+   \end{itemize}
+   Treat these as complementary signals rather than a universal quality score.
+
+   A language model can act as a judge when human review is costly. Provide the
+   prompt, relevant context, a fixed rubric, and explicit score anchors. Ask
+   the judge to identify evidence for each score and mark unverifiable claims.
+   For pairwise comparison, randomize answer order and repeat with the order
+   reversed. LLM judges can favor position, verbosity, or their own model
+   family, and can make reasoning errors; validate a sample of judgments
+   against human reviewers. G-Eval (Liu et al., 2023, arXiv:2303.16634)
+   studies rubric-based LLM evaluation of generated text. Zheng et al. (2023,
+   arXiv:2306.05685) examine LLM-judge biases and limitations.
+
+   \subsection{Worked example}
+   Prompt: Using only the context below, answer in exactly two sentences:
+   Why was the meeting postponed, and what is the new time? Context: The train
+   was cancelled. The meeting was moved from 14:00 to 15:00. No other changes
+   were announced.
+
+   Generated answer: The meeting was postponed because the train was
+   cancelled. It will now start at 15:00. The organizer will reimburse travel
+   costs.
+
+   The first two sentences answer the question from the context. The third
+   sentence violates the length constraint and adds a reimbursement claim that
+   the context does not support. The answer is clear and relevant, but fails
+   instruction adherence and grounding. Fluency must not cancel these defects.
+
+   \subsection{Review checklist}
+   \begin{itemize}
+      \item Did it perform the requested task and follow every explicit
+      constraint?
+      \item Are its important factual claims supported and accurate?
+      \item Did it answer the central question without omitting necessary
+      information?
+      \item Did it add assumptions or promises that were not supplied?
+      \item Is uncertainty stated where evidence is incomplete?
+      \item Can the intended reader understand and safely use the answer?
+   \end{itemize}
+
+
+
+   \bibliographystyle{plainnat}
+   \bibliography{/home/donkarlo/Dropbox/repo/nd_shared_research/bibliography/bibliography.bib}
+\end{document}
